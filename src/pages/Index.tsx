@@ -1,15 +1,37 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import Calculator from '@/components/Calculator';
+import CaseModal, { caseDetails } from '@/components/CaseModal';
+import LandingExamples from '@/components/LandingExamples';
 
 export default function Index() {
+  const [selectedCase, setSelectedCase] = useState<string | null>(null);
+  const [isCaseModalOpen, setIsCaseModalOpen] = useState(false);
+
+  const handleCaseClick = (caseKey: string) => {
+    setSelectedCase(caseKey);
+    setIsCaseModalOpen(true);
+  };
+
+  const closeCaseModal = () => {
+    setIsCaseModalOpen(false);
+    setSelectedCase(null);
+  };
   const services = [
     {
       icon: 'Target',
       title: 'Настройка рекламы',
       description: 'Профессиональная настройка кампаний в Яндекс.Директ с максимальным ROI',
       price: 'от 15 000 ₽'
+    },
+    {
+      icon: 'Globe',
+      title: 'Создание лендингов',
+      description: 'Разработка продающих посадочных страниц с высокой конверсией',
+      price: 'от 25 000 ₽'
     },
     {
       icon: 'TrendingUp',
@@ -103,27 +125,41 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-4xl mx-auto animate-fade-in">
-          <Badge className="mb-6 bg-vibrant-orange/10 text-vibrant-orange border-vibrant-orange/20 font-open-sans">
-            🚀 Специалист по Яндекс.Директ
-          </Badge>
-          <h1 className="text-5xl md:text-7xl font-montserrat font-bold text-dark-charcoal mb-8 leading-tight">
-            Увеличиваю продажи через
-            <span className="bg-gradient-to-r from-vibrant-orange to-success-blue bg-clip-text text-transparent"> Яндекс.Директ</span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 font-open-sans leading-relaxed max-w-2xl mx-auto">
-            Настраиваю эффективную контекстную рекламу, которая приносит качественных клиентов и увеличивает прибыль вашего бизнеса
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-vibrant-orange hover:bg-orange-600 text-white font-montserrat font-semibold px-8 py-4 text-lg animate-scale-in">
-              <Icon name="Phone" size={20} className="mr-2" />
-              Получить консультацию
-            </Button>
-            <Button variant="outline" size="lg" className="border-success-blue text-success-blue hover:bg-success-blue hover:text-white font-montserrat font-semibold px-8 py-4 text-lg">
-              <Icon name="Play" size={20} className="mr-2" />
-              Посмотреть кейсы
-            </Button>
+      <section className="container mx-auto px-4 py-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-left">
+              <Badge className="mb-6 bg-vibrant-orange/10 text-vibrant-orange border-vibrant-orange/20 font-open-sans animate-fade-in">
+                🚀 Специалист по Яндекс.Директ
+              </Badge>
+              <h1 className="text-4xl md:text-6xl font-montserrat font-bold text-dark-charcoal mb-8 leading-tight animate-fade-in">
+                Увеличиваю продажи через
+                <span className="bg-gradient-to-r from-vibrant-orange to-success-blue bg-clip-text text-transparent"> Яндекс.Директ</span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-12 font-open-sans leading-relaxed animate-fade-in">
+                Настраиваю эффективную контекстную рекламу, которая приносит качественных клиентов и увеличивает прибыль вашего бизнеса
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
+                <Button size="lg" className="bg-vibrant-orange hover:bg-orange-600 text-white font-montserrat font-semibold px-8 py-4 text-lg">
+                  <Icon name="Phone" size={20} className="mr-2" />
+                  Получить консультацию
+                </Button>
+                <Button variant="outline" size="lg" className="border-success-blue text-success-blue hover:bg-success-blue hover:text-white font-montserrat font-semibold px-8 py-4 text-lg">
+                  <Icon name="Play" size={20} className="mr-2" />
+                  Посмотреть кейсы
+                </Button>
+              </div>
+            </div>
+            <div className="lg:block hidden">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-vibrant-orange/20 to-success-blue/20 rounded-3xl transform rotate-3"></div>
+                <img 
+                  src="img/675c474e-3f63-4c44-a0ec-9c07ec722ba1.jpg"
+                  alt="Специалист по Яндекс.Директ"
+                  className="rounded-3xl shadow-2xl w-full h-auto animate-float relative z-10"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -171,7 +207,7 @@ export default function Index() {
             Полный спектр услуг для максимального результата от контекстной рекламы
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {services.map((service, index) => (
             <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white/80 backdrop-blur">
               <CardHeader className="text-center pb-4">
@@ -232,7 +268,11 @@ export default function Index() {
                     <span className="font-open-sans text-gray-600">Метрика:</span>
                     <span className="font-montserrat font-semibold text-success-blue">{case_.metric}</span>
                   </div>
-                  <Button variant="outline" className="w-full border-dark-charcoal text-dark-charcoal hover:bg-dark-charcoal hover:text-white font-montserrat font-semibold mt-4">
+                  <Button 
+                    onClick={() => handleCaseClick(index === 0 ? 'electronics' : index === 1 ? 'dental' : 'education')}
+                    variant="outline" 
+                    className="w-full border-dark-charcoal text-dark-charcoal hover:bg-dark-charcoal hover:text-white font-montserrat font-semibold mt-4"
+                  >
                     Подробнее о кейсе
                   </Button>
                 </div>
@@ -277,6 +317,12 @@ export default function Index() {
           ))}
         </div>
       </section>
+
+      {/* Calculator Section */}
+      <Calculator />
+
+      {/* Landing Examples Section */}
+      <LandingExamples />
 
       {/* Blog Preview Section */}
       <section id="blog" className="container mx-auto px-4 py-20">
@@ -436,6 +482,22 @@ export default function Index() {
           </p>
         </div>
       </footer>
+
+      {/* Case Modal */}
+      {selectedCase && (
+        <CaseModal
+          case_={{
+            ...cases.find((c, index) => 
+              (index === 0 && selectedCase === 'electronics') ||
+              (index === 1 && selectedCase === 'dental') ||
+              (index === 2 && selectedCase === 'education')
+            )!,
+            details: caseDetails[selectedCase]
+          }}
+          isOpen={isCaseModalOpen}
+          onClose={closeCaseModal}
+        />
+      )}
     </div>
   );
 }
